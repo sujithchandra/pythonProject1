@@ -32,7 +32,5 @@ def update_details(request, pk):
 @api_view(["DELETE"])
 def delete_details(request, pk):
     data = Student.objects.get(Student, pk=pk)
-    serializer = Studentserializer(data, data=request.data)
-    if serializer.is_valid():
-        serializer.delete()
-    return Response(serializer.data)
+    data.delete(pk)
+    return Response(data)
