@@ -31,6 +31,6 @@ def update_details(request, pk):
 
 @api_view(["DELETE"])
 def delete_details(request, pk):
-    data = Student.objects.get(Student, pk=pk)
-    data.delete(pk)
+    data = Student.objects.get(pk=pk)
+    data.delete()
     return Response(data)
