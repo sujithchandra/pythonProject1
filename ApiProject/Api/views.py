@@ -1,7 +1,7 @@
 #from django.shortcuts import render, redirect
 from django.shortcuts import render, redirect
 from . models import Student
-from .forms import StudentForm
+from . forms import StudentForm
 
 
 def student(request):
