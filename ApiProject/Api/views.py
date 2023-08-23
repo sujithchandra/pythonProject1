@@ -1,36 +1,42 @@
-#from django.shortcuts import render
+#from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect
 from . models import Student
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
-from .serializers import Studentserializer
+from .forms import StudentForm
 
-@api_view(['GET'])
-def get_details(request):
+
+def student(request):
+    if request.method =='POST':
+        form = StudentForm(request.POST)
+        if form.is_valid():
+            try:
+                form.save()
+                return redirect('/show')
+            except:
+                pass
+        else:
+            form = StudentForm()
+            return render(request,'index.html',{'form': form})
+        
+def show(request):
     data = Student.objects.all()
-    serializer = Studentserializer(data, many=True)
-    return Response(serializer.data)
+    return render(request,'show.html',{'data': data})
 
 
-@api_view(['POST'])
-def post_details(request):
-    serializer = Studentserializer(data=request.data)
-    if serializer.is_valid():
-        serializer.save()
-    return Response(serializer.data)
+def edit(request,id):
+    data = Student.objects.get(id=id)
+    return render(request,'edit.html',{'data': data})
 
 
-@api_view(['PUT'])
-def update_details(request, pk):
-    data = Student.objects.get(Student, pk=pk)
-    serializer = Studentserializer(data, data=request.data)
-    if serializer.is_valid():
-        serializer.save()
-    return Response(serializer.data)
+def update(request,id):
+    data = Student.objects.get(id=id)
+    form = StudentForm(request.POST, instance=data)
+    if form.is_valid():
+        form.save()
+        return redirect('/show')
+    return render(request,'edit.html',{'form':form})
 
 
-
-@api_view(["DELETE"])
-def delete_details(request, pk):
-    data = Student.objects.get(pk=pk)
+def delete(request,id):
+    data = Student.objects.all(id=id)
     data.delete()
-    return Response(data)
+    return redirect('/show')

@@ -5,12 +5,13 @@ from . import views
 
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('get/', views.get_details, name='get'),
-    path('post/', views.post_details, name='post'),
-    path('put/<int:pk>/', views.update_details, name='post'),
-    path('delete/<int:pk>/', views.delete_details, name='delete')
-    ]
+    path('admin/', admin.site.urls),  
+    path('emp', views.emp),  
+    path('show',views.show),  
+    path('edit/<int:id>', views.edit),  
+    path('update/<int:id>', views.update),  
+    path('delete/<int:id>', views.delete),  
+]  
 
 
 
